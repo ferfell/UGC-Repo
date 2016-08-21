@@ -26,6 +26,7 @@ macro(configure_project)
 	option(TESTS "Build with tests" ON)
 	option(TOOLS "Build additional tools" ON)
 	option(EVMJIT "Build with EVMJIT module enabled" OFF)
+	option(HERA "Build with HERA module enabled" OFF)
 
 	# Resolve any clashes between incompatible options.
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
@@ -44,6 +45,10 @@ macro(configure_project)
 	# not suitable for all platforms.
 	if (EVMJIT)
 		add_definitions(-DETH_EVMJIT)
+	endif ()
+
+	if (HERA)
+		add_definitions(-DETH_HERA)
 	endif ()
 
 	# FATDB is an option to include the reverse hashes for the trie,
@@ -106,6 +111,7 @@ macro(print_config)
 	message("-- TESTS            Build tests                              ${TESTS}")
 	message("-- TOOLS            Build tools                              ${TOOLS}")
 	message("-- EVMJIT           Build LLVM-based JIT EVM                 ${EVMJIT}")
+	message("-- HERA             Build Hera eWASM VM                      ${HERA}")
 	message("------------------------------------------------------------- tests")
 	message("-- FASTCTEST        Run only test suites in ctest            ${FASTCTEST}")
 	message("-- TESTETH_ARGS     Testeth arguments in ctest:               ")

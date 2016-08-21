@@ -18,3 +18,6 @@ if(MINIUPNPC)
 endif()
 
 install(TARGETS eth DESTINATION bin)
+if (HERA)
+	target_link_libraries(eth ${Eth_HERA_LIBRARIES})
+endif()

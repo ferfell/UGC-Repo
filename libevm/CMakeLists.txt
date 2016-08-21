@@ -17,6 +17,13 @@ if (EVMJIT)
 	)
 endif()
 
+if (HERA)
+	list(APPEND SOURCES
+		JitVM.cpp
+		SmartVM.cpp
+	)
+endif()
+
 file(GLOB HEADERS "*.h")
 
 add_library(evm ${SOURCES} ${HEADERS})
@@ -26,4 +33,9 @@ target_include_directories(evm PUBLIC ${CMAKE_SOURCE_DIR}/evmjit/include)
 
 if (EVMJIT)
 	target_link_libraries(evm PRIVATE evmjit)
+endif()
+
+if (HERA)
+	target_include_directories(evm PRIVATE ../hera)
+	target_link_libraries(evm ${Eth_HERA_LIBRARIES})
 endif()

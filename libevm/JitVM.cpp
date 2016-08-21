@@ -17,7 +17,11 @@ class EVM
 {
 public:
 	EVM():
+#if EVM_HERA
+		m_instance(hera_create())
+#else
 		m_instance(evmjit_create())
+#endif
 	{
 		assert(m_instance->abi_version == EVM_ABI_VERSION);
 	}

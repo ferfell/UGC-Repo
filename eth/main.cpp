@@ -350,8 +350,8 @@ int main(int argc, char** argv)
 	po::options_description generalOptions("General Options", c_lineWidth);
 	generalOptions.add_options()
 		("db-path,d", po::value<string>()->value_name("<path>"), ("Load database from path\n(default: " + getDataDir().string() + ").\n").c_str())
-#if ETH_EVMJIT
-		("vm", "<vm-kind>  Select VM; options are: interpreter, jit or smart (default: interpreter)")
+#if ETH_EVMJIT || ETH_HERA
+		("vm", "<vm-kind>  Select VM; options are: interpreter, jit, hera or smart (default: interpreter)")
 #endif // ETH_EVMJIT
 		("verbosity,v", po::value<int>()->value_name("<0 - 9>"), "Set the log verbosity from 0 to 9 (default: 8).")
 		("version,V",  "Show the version and exit.")
@@ -382,13 +382,13 @@ int main(int argc, char** argv)
 			return -1;
 		}
 
-#if ETH_EVMJIT
+#if ETH_EVMJIT || ETH_HERA
 	if (vm.count("vm"))
 	{
 		string vmKind = vm["vm"].as<string>();
 		if (vmKind == "interpreter")
 			VMFactory::setKind(VMKind::Interpreter);
-		else if (vmKind == "jit")
+		else if (vmKind == "jit" || vmKind == "hera")
 			VMFactory::setKind(VMKind::JIT);
 		else if (vmKind == "smart")
 			VMFactory::setKind(VMKind::Smart);
